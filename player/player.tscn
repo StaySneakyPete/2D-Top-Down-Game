@@ -1,11 +1,11 @@
 [gd_scene load_steps=3 format=3 uid="uid://ckhb0r8jdi6s7"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_8rxxj"]
-[ext_resource type="PackedScene" uid="uid://7bydbx7wmroy" path="res://weapons/Sword.tscn" id="2_lmldp"]
+[ext_resource type="PackedScene" uid="uid://w7o2y11f5tt0" path="res://weapons/Pistol.tscn" id="2_jrpsi"]
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_8rxxj")
-starting_weapon = ExtResource("2_lmldp")
+starting_weapon = ExtResource("2_jrpsi")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 
