@@ -1,9 +1,12 @@
 extends CharacterBody2D
 
+signal died
+
 @export var speed: float = 100.0
 @export var max_health: int = 30
 @export var damage: int = 10
 @export var attack_range: float = 40.0
+@export var detection_range: float = 500.0
 @export var attack_cooldown: float = 1.0
 @export var loot_scene: PackedScene
 
@@ -21,14 +24,16 @@ func _physics_process(delta: float) -> void:
 
 	var distance = global_position.distance_to(player.global_position)
 
-	if distance > attack_range:
+	if distance <= attack_range:
+		velocity = Vector2.ZERO
+		if can_attack:
+			attack_player()
+	elif distance <= detection_range:
 		var direction = (player.global_position - global_position).normalized()
 		velocity = direction * speed
 		move_and_slide()
 	else:
 		velocity = Vector2.ZERO
-		if can_attack:
-			attack_player()
 
 func attack_player() -> void:
 	can_attack = false
@@ -44,6 +49,8 @@ func take_damage(amount: int) -> void:
 		die()
 
 func die() -> void:
+	print("Enemy died!")
+	died.emit()
 	if loot_scene:
 		var loot = loot_scene.instantiate()
 		get_tree().current_scene.add_child(loot)

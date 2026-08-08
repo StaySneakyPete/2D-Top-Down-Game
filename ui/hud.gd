@@ -2,6 +2,7 @@ extends CanvasLayer
 
 @onready var slots_container: HBoxContainer = $HotbarContainer/Slots
 @export var slot_scene: PackedScene
+@onready var room_cleared_label: Label = $RoomClearedLabel
 
 var slot_nodes: Array = []
 
@@ -29,3 +30,10 @@ func update_hotbar(hotbar: Array, current_slot: int) -> void:
 
 func _on_player_hotbar_changed(hotbar: Array, current_slot: int) -> void:
 	update_hotbar(hotbar, current_slot)
+
+func show_room_cleared() -> void:
+	room_cleared_label.visible = true
+
+
+func _on_room_manager_room_cleared() -> void:
+	show_room_cleared()
