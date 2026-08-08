@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://8qjcqjrkrjg4"]
+[gd_scene load_steps=5 format=3 uid="uid://8qjcqjrkrjg4"]
 
 [ext_resource type="PackedScene" uid="uid://ckhb0r8jdi6s7" path="res://player/player.tscn" id="1_pqegj"]
 [ext_resource type="PackedScene" uid="uid://dsbw7pjlaod7w" path="res://enemies/enemy.tscn" id="2_y78e0"]
 [ext_resource type="PackedScene" uid="uid://ba2gs5rlwjp4x" path="res://pickups/WeaponPickup.tscn" id="3_ngk76"]
+[ext_resource type="PackedScene" uid="uid://b7t7up5tdq3in" path="res://ui/HUD.tscn" id="4_0xabf"]
 
 [node name="Main" type="Node2D"]
 
@@ -12,3 +13,7 @@ position = Vector2(50, 100)
 [node name="Enemy" parent="." instance=ExtResource("2_y78e0")]
 position = Vector2(500, 200)
 loot_scene = ExtResource("3_ngk76")
+
+[node name="Hud" parent="." instance=ExtResource("4_0xabf")]
+
+[connection signal="hotbar_changed" from="Player" to="Hud" method="_on_player_hotbar_changed"]

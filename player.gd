@@ -41,9 +41,10 @@ func _process(delta: float) -> void:
 
 func select_slot(slot: int) -> void:
 	if hotbar[slot] == null:
-		return  # empty slot, do nothing
+		return
 	current_slot = slot
 	equip_weapon(hotbar[slot])
+	hotbar_changed.emit(hotbar, current_slot)
 
 func equip_weapon(weapon_scene: PackedScene) -> void:
 	if current_weapon:
@@ -53,6 +54,7 @@ func equip_weapon(weapon_scene: PackedScene) -> void:
 
 func add_to_hotbar(weapon_scene: PackedScene, slot: int) -> void:
 	hotbar[slot] = weapon_scene
+	hotbar_changed.emit(hotbar, current_slot)
 
 func take_damage(amount: int) -> void:
 	health -= amount
@@ -65,3 +67,5 @@ func find_empty_hotbar_slot() -> int:
 		if hotbar[i] == null:
 			return i
 	return -1  # hotbar full
+
+signal hotbar_changed(hotbar: Array, current_slot: int)

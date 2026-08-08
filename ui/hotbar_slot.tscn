@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://br02gbyyb73qa"]
+
+[ext_resource type="Script" path="res://ui/hotbar_slot.gd" id="1_7ruts"]
+
+[sub_resource type="Theme" id="Theme_t1o7g"]
+
+[node name="HotbarSlot" type="Panel"]
+custom_minimum_size = Vector2(48, 48)
+theme = SubResource("Theme_t1o7g")
+script = ExtResource("1_7ruts")
+
+[node name="SlotLabel" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="ItemIcon" type="ColorRect" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0

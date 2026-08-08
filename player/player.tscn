@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://ckhb0r8jdi6s7"]
+[gd_scene load_steps=4 format=3 uid="uid://ckhb0r8jdi6s7"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_8rxxj"]
 [ext_resource type="PackedScene" uid="uid://w7o2y11f5tt0" path="res://weapons/Pistol.tscn" id="2_jrpsi"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0dt3e"]
+size = Vector2(32, 32)
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_8rxxj")
@@ -10,6 +13,7 @@ starting_weapon = ExtResource("2_jrpsi")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_0dt3e")
 
 [node name="Hitbox" type="Area2D" parent="."]
 
