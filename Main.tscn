@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://8qjcqjrkrjg4"]
+[gd_scene load_steps=14 format=4 uid="uid://8qjcqjrkrjg4"]
 
 [ext_resource type="PackedScene" uid="uid://ckhb0r8jdi6s7" path="res://player/player.tscn" id="1_pqegj"]
 [ext_resource type="PackedScene" uid="uid://dsbw7pjlaod7w" path="res://enemies/enemy.tscn" id="2_y78e0"]
@@ -6,6 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://b7t7up5tdq3in" path="res://ui/HUD.tscn" id="4_0xabf"]
 [ext_resource type="Texture2D" uid="uid://q6340pgv6hem" path="res://wall.png" id="5_jq8fq"]
 [ext_resource type="Texture2D" uid="uid://c16jprtlxlb8s" path="res://floor.png" id="6_gqrnb"]
+[ext_resource type="PackedScene" uid="uid://dlrwx02iyfy3x" path="res://level/door/Door.tscn" id="7_rye82"]
+[ext_resource type="PackedScene" uid="uid://cku1c08eyjosn" path="res://ui/InventoryUI.tscn" id="8_0aw3a"]
+[ext_resource type="Script" path="res://ui/inventory_ui.gd" id="9_wq8g2"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8hiau"]
 texture = ExtResource("6_gqrnb")
@@ -69,7 +72,7 @@ y_sort_enabled = true
 
 [node name="Walls" type="TileMapLayer" parent="YSortLayer"]
 y_sort_enabled = true
-tile_map_data = PackedByteArray("AAAAAAMABwAAAAAAAAABAAMABwAAAAAAAAACAAMABwAAAAAAAAADAAMABwAAAAAAAAAEAAMABwAAAAAAAAAFAAMABwAAAAAAAAAGAAMABwAAAAAAAAALAAMABwAAAAAAAAAKAAMABwAAAAAAAAAJAAMABwAAAAAAAAAIAAMABwAAAAAAAAAHAAMABwAAAAAAAAD//wAABwAAAAAAAAD//wEABwAAAAAAAAD//wIABwAAAAAAAAD//wMABwAAAAAAAAD//wQABwAAAAAAAAD//wUABwAAAAAAAAD//wYABwAAAAAAAAD//wcABwAAAAAAAAD//wgABwAAAAAAAAD//wkABwAAAAAAAAD//woABwAAAAAAAAAAAAoABwAAAAAAAAABAAoABwAAAAAAAAACAAoABwAAAAAAAAADAAoABwAAAAAAAAAEAAoABwAAAAAAAAAFAAoABwAAAAAAAAAGAAoABwAAAAAAAAAHAAoABwAAAAAAAAAIAAoABwAAAAAAAAAJAAoABwAAAAAAAAAKAAoABwAAAAAAAAARAAoABwAAAAAAAAAQAAoABwAAAAAAAAAPAAoABwAAAAAAAAAOAAoABwAAAAAAAAANAAoABwAAAAAAAAAMAAoABwAAAAAAAAALAAoABwAAAAAAAAASAAAABwAAAAAAAAASAAEABwAAAAAAAAASAAIABwAAAAAAAAASAAMABwAAAAAAAAASAAQABwAAAAAAAAASAAUABwAAAAAAAAASAAYABwAAAAAAAAASAAcABwAAAAAAAAASAAgABwAAAAAAAAASAAkABwAAAAAAAAASAAoABwAAAAAAAAASAP//BwAAAAAAAAARAP//BwAAAAAAAAAQAP//BwAAAAAAAAAPAP//BwAAAAAAAAAOAP//BwAAAAAAAAANAP//BwAAAAAAAAAMAP//BwAAAAAAAAALAP//BwAAAAAAAAAKAP//BwAAAAAAAAAJAP//BwAAAAAAAAAIAP//BwAAAAAAAAAHAP//BwAAAAAAAAAGAP//BwAAAAAAAAAFAP//BwAAAAAAAAAEAP//BwAAAAAAAAADAP//BwAAAAAAAAACAP//BwAAAAAAAAABAP//BwAAAAAAAAAAAP//BwAAAAAAAAD/////BwAAAAAAAAA=")
+tile_map_data = PackedByteArray("AAAAAAMABwAAAAAAAAABAAMABwAAAAAAAAACAAMABwAAAAAAAAADAAMABwAAAAAAAAAEAAMABwAAAAAAAAAFAAMABwAAAAAAAAAGAAMABwAAAAAAAAALAAMABwAAAAAAAAAKAAMABwAAAAAAAAAJAAMABwAAAAAAAAAIAAMABwAAAAAAAAAHAAMABwAAAAAAAAD//wAABwAAAAAAAAD//wEABwAAAAAAAAD//wIABwAAAAAAAAD//wMABwAAAAAAAAD//wQABwAAAAAAAAD//wUABwAAAAAAAAD//wYABwAAAAAAAAD//wcABwAAAAAAAAD//wgABwAAAAAAAAD//wkABwAAAAAAAAD//woABwAAAAAAAAAAAAoABwAAAAAAAAABAAoABwAAAAAAAAACAAoABwAAAAAAAAADAAoABwAAAAAAAAAEAAoABwAAAAAAAAAFAAoABwAAAAAAAAAGAAoABwAAAAAAAAAHAAoABwAAAAAAAAAIAAoABwAAAAAAAAAJAAoABwAAAAAAAAAKAAoABwAAAAAAAAARAAoABwAAAAAAAAAQAAoABwAAAAAAAAAPAAoABwAAAAAAAAAOAAoABwAAAAAAAAANAAoABwAAAAAAAAAMAAoABwAAAAAAAAALAAoABwAAAAAAAAASAAAABwAAAAAAAAASAAEABwAAAAAAAAASAAIABwAAAAAAAAASAAMABwAAAAAAAAASAAUABwAAAAAAAAASAAYABwAAAAAAAAASAAcABwAAAAAAAAASAAgABwAAAAAAAAASAAkABwAAAAAAAAASAAoABwAAAAAAAAASAP//BwAAAAAAAAARAP//BwAAAAAAAAAQAP//BwAAAAAAAAAPAP//BwAAAAAAAAAOAP//BwAAAAAAAAANAP//BwAAAAAAAAAMAP//BwAAAAAAAAALAP//BwAAAAAAAAAKAP//BwAAAAAAAAAJAP//BwAAAAAAAAAIAP//BwAAAAAAAAAHAP//BwAAAAAAAAAGAP//BwAAAAAAAAAFAP//BwAAAAAAAAAEAP//BwAAAAAAAAADAP//BwAAAAAAAAACAP//BwAAAAAAAAABAP//BwAAAAAAAAAAAP//BwAAAAAAAAD/////BwAAAAAAAAA=")
 tile_set = SubResource("TileSet_hs51v")
 
 [node name="Player" parent="YSortLayer" instance=ExtResource("1_pqegj")]
@@ -91,5 +94,13 @@ position = Vector2(750, 400)
 
 [node name="Hud" parent="." instance=ExtResource("4_0xabf")]
 
+[node name="Door" parent="." instance=ExtResource("7_rye82")]
+position = Vector2(1152, 256)
+
+[node name="InventoryUi" parent="." instance=ExtResource("8_0aw3a")]
+script = ExtResource("9_wq8g2")
+
 [connection signal="hotbar_changed" from="YSortLayer/Player" to="Hud" method="_on_player_hotbar_changed"]
+[connection signal="inventory_changed" from="YSortLayer/Player" to="InventoryUi" method="_on_player_inventory_changed"]
 [connection signal="room_cleared" from="YSortLayer/RoomManager" to="Hud" method="_on_room_manager_room_cleared"]
+[connection signal="room_cleared" from="YSortLayer/RoomManager" to="Door" method="_on_room_manager_room_cleared"]

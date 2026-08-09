@@ -9,6 +9,10 @@ var health: int
 var hotbar: Array[PackedScene] = [null, null, null, null, null, null, null, null, null]
 var current_slot: int = 0
 var current_weapon: WeaponBase = null
+var inventory: Array = []  # each slot: {"item": Item, "count": int} or null
+const INVENTORY_SIZE: int = 20
+
+signal inventory_changed(inventory: Array)
 
 func _ready() -> void:
 	health = max_health
@@ -17,6 +21,32 @@ func _ready() -> void:
 	# temporary test fill — remove once pickups exist
 	hotbar[1] = load("res://weapons/Sword.tscn")
 	select_slot(0)
+
+func _ready_inventory() -> void:
+	for i in range(INVENTORY_SIZE):
+		inventory.append(null)
+		_ready_inventory()
+
+func add_item(item: Item, amount: int = 1) -> bool:
+	# try stacking onto existing slot first
+	for slot in inventory:
+		if slot != null and slot["item"] == item and slot["count"] < item.max_stack:
+			var space = item.max_stack - slot["count"]
+			var to_add = min(space, amount)
+			slot["count"] += to_add
+			amount -= to_add
+			if amount <= 0:
+				inventory_changed.emit(inventory)
+				return true
+
+	# find empty slot for leftover
+	for i in range(inventory.size()):
+		if inventory[i] == null:
+			inventory[i] = {"item": item, "count": amount}
+			inventory_changed.emit(inventory)
+			return true
+
+	return false  # inventory full
 
 func _physics_process(delta: float) -> void:
 	var input_dir = Input.get_vector("move_left", "move_right", "move_up", "move_down")

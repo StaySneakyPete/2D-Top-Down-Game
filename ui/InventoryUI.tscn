@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://cku1c08eyjosn"]
+
+[ext_resource type="Script" path="res://ui/inventory_ui.gd" id="1_ynct4"]
+[ext_resource type="PackedScene" uid="uid://br02gbyyb73qa" path="res://ui/hotbar_slot.tscn" id="2_dgusb"]
+
+[node name="InventoryUi" type="CanvasLayer"]
+visible = false
+script = ExtResource("1_ynct4")
+slot_scene = ExtResource("2_dgusb")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="GridContainer" type="GridContainer" parent="Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+columns = 5
