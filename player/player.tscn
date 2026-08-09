@@ -8,6 +8,8 @@ size = Vector2(32, 32)
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_8rxxj")
+speed = null
+max_health = null
 starting_item = ExtResource("2_h8p75")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

@@ -1,0 +1,48 @@
+[gd_scene load_steps=2 format=3 uid="uid://dl0vr8j105k66"]
+
+[sub_resource type="GDScript" id="GDScript_8bo0j"]
+script/source = "extends CanvasLayer
+
+@onready var recipe_list: VBoxContainer = $Control/RecipeList
+@export var recipe_button_scene: PackedScene
+@export var recipes: Array[Recipe] = []
+
+func _ready() -> void:
+	for recipe in recipes:
+		var btn = recipe_button_scene.instantiate()
+		btn.text = \"Craft \" + recipe.result_item.item_name
+		btn.pressed.connect(_on_recipe_pressed.bind(recipe))
+		recipe_list.add_child(btn)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed(\"toggle_crafting\"):
+		visible = not visible
+
+func _on_recipe_pressed(recipe: Recipe) -> void:
+	var player = get_tree().get_first_node_in_group(\"player\")
+	if player:
+		player.craft(recipe)
+"
+
+[node name="CraftingUi" type="CanvasLayer"]
+visible = false
+script = SubResource("GDScript_8bo0j")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RecipeList" type="VBoxContainer" parent="Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0

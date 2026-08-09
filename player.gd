@@ -9,10 +9,11 @@ var health: int
 var current_slot: int = 0
 var current_weapon: WeaponBase = null
 var inventory: Array = []  # each slot: {"item": Item, "count": int} or null
+var held_slot: int = -1
 const INVENTORY_SIZE: int = 29
 const HOTBAR_SIZE: int = 9
 
-signal inventory_changed(inventory: Array)
+signal inventory_changed(inventory: Array, current_slot: int, held_slot: int)
 
 func _ready() -> void:
 	health = max_health
@@ -33,13 +34,13 @@ func add_item(item: Item, amount: int = 1) -> bool:
 			slot["count"] += to_add
 			amount -= to_add
 			if amount <= 0:
-				inventory_changed.emit(inventory, current_slot)
+				inventory_changed.emit(inventory, current_slot, held_slot)
 				return true
 
 	for i in range(inventory.size()):
 		if inventory[i] == null:
 			inventory[i] = {"item": item, "count": amount}
-			inventory_changed.emit(inventory, current_slot)
+			inventory_changed.emit(inventory, current_slot, held_slot)
 			return true
 
 	return false
@@ -56,7 +57,7 @@ func select_slot(slot: int) -> void:
 		current_weapon = slot_data["item"].weapon_scene.instantiate()
 		weapon_slot.add_child(current_weapon)
 
-	inventory_changed.emit(inventory, current_slot)
+	inventory_changed.emit(inventory, current_slot, held_slot)
 
 func _physics_process(delta: float) -> void:
 	var input_dir = Input.get_vector("move_left", "move_right", "move_up", "move_down")
@@ -67,7 +68,7 @@ func _process(delta: float) -> void:
 	var aim_dir = (get_global_mouse_position() - global_position).normalized()
 	weapon_slot.rotation = aim_dir.angle()
 
-	if Input.is_action_pressed("fire") and current_weapon:
+	if Input.is_action_pressed("fire") and current_weapon and get_viewport().gui_get_hovered_control() == null:
 		current_weapon.attack(aim_dir)
 
 	for i in range(HOTBAR_SIZE):
@@ -84,3 +85,53 @@ func take_damage(amount: int) -> void:
 	print("Player health: ", health)
 	if health <= 0:
 		print("Player died!")
+
+func on_slot_clicked(index: int) -> void:
+	if held_slot == -1:
+		if inventory[index] != null:
+			held_slot = index
+	else:
+		var temp = inventory[index]
+		inventory[index] = inventory[held_slot]
+		inventory[held_slot] = temp
+		held_slot = -1
+
+		if current_slot < HOTBAR_SIZE:
+			select_slot(current_slot)
+
+	inventory_changed.emit(inventory, current_slot, held_slot)
+
+func can_craft(recipe: Recipe) -> bool:
+	for i in range(recipe.ingredient_items.size()):
+		var needed_item = recipe.ingredient_items[i]
+		var needed_amount = recipe.ingredient_amounts[i]
+		if count_item(needed_item) < needed_amount:
+			return false
+	return true
+
+func count_item(item: Item) -> int:
+	var total = 0
+	for slot in inventory:
+		if slot != null and slot["item"] == item:
+			total += slot["count"]
+	return total
+
+func remove_item(item: Item, amount: int) -> void:
+	for i in range(inventory.size()):
+		if inventory[i] != null and inventory[i]["item"] == item:
+			var take = min(inventory[i]["count"], amount)
+			inventory[i]["count"] -= take
+			amount -= take
+			if inventory[i]["count"] <= 0:
+				inventory[i] = null
+			if amount <= 0:
+				break
+	inventory_changed.emit(inventory, current_slot, held_slot)
+
+func craft(recipe: Recipe) -> bool:
+	if not can_craft(recipe):
+		return false
+	for i in range(recipe.ingredient_items.size()):
+		remove_item(recipe.ingredient_items[i], recipe.ingredient_amounts[i])
+	add_item(recipe.result_item, recipe.result_amount)
+	return true

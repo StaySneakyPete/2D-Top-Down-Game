@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Recipe" load_steps=5 format=3 uid="uid://b8tvqb3mr03wv"]
+
+[ext_resource type="Script" path="res://items/item.gd" id="1_if5su"]
+[ext_resource type="Script" path="res://items/recipe.gd" id="2_mlu8w"]
+[ext_resource type="Resource" uid="uid://c7c36l8slvwa" path="res://items/gold_coin.tres" id="2_slttu"]
+[ext_resource type="Resource" uid="uid://mqbvna4srofs" path="res://items/sword_item.tres" id="3_4olbd"]
+
+[resource]
+script = ExtResource("2_mlu8w")
+result_item = ExtResource("3_4olbd")
+result_amount = 1
+ingredient_items = Array[ExtResource("1_if5su")]([ExtResource("2_slttu")])
+ingredient_amounts = Array[int]([3])

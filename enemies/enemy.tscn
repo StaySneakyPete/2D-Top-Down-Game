@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://dsbw7pjlaod7w"]
+[gd_scene load_steps=10 format=3 uid="uid://dsbw7pjlaod7w"]
 
 [ext_resource type="Script" path="res://enemies/enemy.gd" id="1_mcc5g"]
 [ext_resource type="PackedScene" uid="uid://7dcehu7h5nxf" path="res://pickups/item_pickup.tscn" id="2_pc0vm"]
 [ext_resource type="Script" path="res://items/loot_entry.gd" id="3_lccw8"]
 [ext_resource type="Resource" uid="uid://c7c36l8slvwa" path="res://items/gold_coin.tres" id="4_srr3i"]
 [ext_resource type="Resource" uid="uid://mqbvna4srofs" path="res://items/sword_item.tres" id="5_aunwh"]
+[ext_resource type="Texture2D" uid="uid://cjgsu6uodhgt0" path="res://enemies/sprites/Golem/south.png" id="6_76dgf"]
 
 [sub_resource type="Resource" id="Resource_1102n"]
 script = ExtResource("3_lccw8")
@@ -24,12 +25,8 @@ script = ExtResource("1_mcc5g")
 item_pickup_scene = ExtResource("2_pc0vm")
 possible_drops = Array[ExtResource("3_lccw8")]([SubResource("Resource_1102n"), SubResource("Resource_44r4g")])
 
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_left = -16.0
-offset_top = -16.0
-offset_right = 16.0
-offset_bottom = 16.0
-color = Color(0.603922, 0, 0.772549, 1)
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("6_76dgf")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_wn3cg")

@@ -12,6 +12,8 @@ func _ready() -> void:
 		var slot = slot_scene.instantiate()
 		slots_container.add_child(slot)
 		slot.set_slot_number(i + 1)
+		slot.slot_index = i
+		slot.slot_clicked.connect(_on_slot_clicked)
 		slot_nodes.append(slot)
 
 	print("Slots created: ", slot_nodes.size())
@@ -19,17 +21,23 @@ func _ready() -> void:
 	await get_tree().process_frame
 	var player = get_tree().get_first_node_in_group("player")
 	if player:
-		update_hotbar(player.inventory, player.current_slot)
+		update_hotbar(player.inventory, player.current_slot, player.held_slot)
 
-func update_hotbar(inventory: Array, current_slot: int) -> void:
+func update_hotbar(inventory: Array, current_slot: int, held_slot: int) -> void:
 	if slot_nodes.is_empty():
 		return
 	for i in range(HOTBAR_SIZE):
 		slot_nodes[i].set_filled(inventory[i] != null)
 		slot_nodes[i].set_selected(i == current_slot)
+		slot_nodes[i].set_held(i == held_slot)
 
-func _on_player_inventory_changed(inventory: Array, current_slot: int) -> void:
-	update_hotbar(inventory, current_slot)
+func _on_player_inventory_changed(inventory: Array, current_slot: int, held_slot: int) -> void:
+	update_hotbar(inventory, current_slot, held_slot)
 
 func show_room_cleared() -> void:
 	room_cleared_label.visible = true
+
+func _on_slot_clicked(index: int) -> void:
+	var player = get_tree().get_first_node_in_group("player")
+	if player:
+		player.on_slot_clicked(index)
