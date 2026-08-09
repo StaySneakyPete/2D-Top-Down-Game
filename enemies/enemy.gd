@@ -9,6 +9,8 @@ signal died
 @export var detection_range: float = 500.0
 @export var attack_cooldown: float = 1.0
 @export var loot_scene: PackedScene
+@export var item_pickup_scene: PackedScene
+@export var possible_drops: Array[LootEntry] = []
 
 var health: int
 var player: Node2D = null
@@ -49,10 +51,19 @@ func take_damage(amount: int) -> void:
 		die()
 
 func die() -> void:
-	print("Enemy died!")
 	died.emit()
 	if loot_scene:
 		var loot = loot_scene.instantiate()
-		get_tree().current_scene.add_child(loot)
+		get_tree().current_scene.call_deferred("add_child", loot)
 		loot.global_position = global_position
+
+	for entry in possible_drops:
+		if entry.item and randf() <= entry.drop_chance:
+			var pickup = item_pickup_scene.instantiate()
+			pickup.item = entry.item
+			pickup.amount = 1
+			get_tree().current_scene.call_deferred("add_child", pickup)
+			var offset = Vector2(randf_range(-12, 12), randf_range(-12, 12))
+			pickup.global_position = global_position + offset
+
 	queue_free()

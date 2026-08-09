@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://dncyrf2h2n3s8"]
+
+[ext_resource type="Script" path="res://items/item.gd" id="1_33py8"]
+[ext_resource type="PackedScene" uid="uid://w7o2y11f5tt0" path="res://weapons/Pistol.tscn" id="2_xxgsh"]
+
+[resource]
+script = ExtResource("1_33py8")
+item_name = "Pistol"
+max_stack = 1
+description = ""
+is_weapon = true
+weapon_scene = ExtResource("2_xxgsh")

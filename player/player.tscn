@@ -1,14 +1,14 @@
 [gd_scene load_steps=4 format=3 uid="uid://ckhb0r8jdi6s7"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_8rxxj"]
-[ext_resource type="PackedScene" uid="uid://w7o2y11f5tt0" path="res://weapons/Pistol.tscn" id="2_jrpsi"]
+[ext_resource type="Resource" uid="uid://dncyrf2h2n3s8" path="res://items/pistol_item.tres" id="2_h8p75"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0dt3e"]
 size = Vector2(32, 32)
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_8rxxj")
-starting_weapon = ExtResource("2_jrpsi")
+starting_item = ExtResource("2_h8p75")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 

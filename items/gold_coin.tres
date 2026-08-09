@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3 uid="uid://c7c36l8slvwa"]
+
+[ext_resource type="Script" path="res://items/item.gd" id="1_bfe5s"]
+
+[resource]
+script = ExtResource("1_bfe5s")
+item_name = "Gold Coin"
+max_stack = 99
+description = ""
+is_weapon = false
+pickup_color = Color(1, 0.886275, 0, 1)

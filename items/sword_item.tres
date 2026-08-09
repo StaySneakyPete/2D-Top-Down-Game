@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://mqbvna4srofs"]
+
+[ext_resource type="Script" path="res://items/item.gd" id="1_v1v1u"]
+[ext_resource type="PackedScene" uid="uid://7bydbx7wmroy" path="res://weapons/Sword.tscn" id="2_pjtsn"]
+
+[resource]
+script = ExtResource("1_v1v1u")
+item_name = "Sword"
+max_stack = 1
+description = ""
+is_weapon = true
+weapon_scene = ExtResource("2_pjtsn")
+pickup_color = Color(0.423651, 0.423651, 0.423651, 1)
